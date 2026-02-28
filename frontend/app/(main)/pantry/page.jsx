@@ -7,10 +7,21 @@ import {
 } from "@/actions/pantry.actions";
 import AddToPantryModal from "@/components/AddToPantryModal";
 import PricingModal from "@/components/PricingModal";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import useFetch from "@/hooks/use-fetch";
-import { Package, Plus, Sparkles } from "lucide-react";
+import {
+  ChefHat,
+  Edit2,
+  Loader2,
+  Package,
+  Plus,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const Pantrypage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,6 +61,22 @@ const Pantrypage = () => {
       setItems(itemsData.items);
     }
   }, [itemsData]);
+
+  // Refresh after delete
+  useEffect(() => {
+    if (deleteData?.success && !deleting) {
+      toast.success("Item removed from pantry");
+      fetchItems();
+    }
+  }, [deleteData]);
+
+  // Handle delete
+  const handleDelete = async (itemId) => {
+    const formData = new FormData();
+    formData.append("itemId", itemId);
+    await deleteItem(formData);
+  };
+
   const handleModalSuccess = (params) => {};
 
   return (
@@ -104,12 +131,114 @@ const Pantrypage = () => {
         </div>
 
         {/* Quick Action Card - Find Recipes */}
+        {items.length > 0 && (
+          <Link href="/pantry/recipes" className="block mb-8">
+            <div className="bg-linear-to-br from-green-600 to-emerald-500 text-white p-6 border-2 border-emerald-700 hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group">
+              <div className="flex items-center gap-4">
+                <div className="bg-white/20 p-3 border-2 border-white/30 group-hover:bg-white/30 transition-colors">
+                  <ChefHat className="w-8 h-8" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-xl mb-1">
+                    What Can I Cook Today?
+                  </h3>
+                  <p className="text-green-100 text-sm font-light">
+                    Get AI-powered recipe suggestions from your {items.length}{" "}
+                    {items.length === 1 ? "ingredient" : "ingredients"}
+                  </p>
+                </div>
+                <div className="hidden sm:block">
+                  <Badge className="bg-white/20 text-white border-2 border-white/30 font-bold uppercase tracking-wide">
+                    {items.length} items
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </Link>
+        )}
 
         {/* Loading State */}
+        {loadingItems && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="w-12 h-12 text-orange-600 animate-spin mb-4" />
+            <p className="text-stone-500">Loading your pantry... </p>
+          </div>
+        )}
 
         {/* Pantry Items Grid */}
+        {!loadingItems && items.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-stone-900">
+                Your Ingredients
+              </h2>
+              <Badge
+                variant="outline"
+                className="text-stone-600 border-2 border-stone-900 font-bold uppercase tracking-wide"
+              >
+                {items.length} {items.length === 1 ? "item" : "items"}
+              </Badge>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {items.map((item) => (
+                <div
+                  key={item.documentId}
+                  className="bg-white p-5 border-2 border-stone-200 hover:border-orange-600 hover:shadow-lg transition-all"
+                >
+                  {editingId === item.documentId ? (
+                    <div></div>
+                  ) : (
+                    <div>
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <h3 className="font-bold text-lg text-stone-900 mb-1">
+                            {item.name}
+                          </h3>
+                          <p className="text-stone-500 text-sm font-light">
+                            {item.quantity}
+                          </p>
+                        </div>
+
+                        <div className="flex gap-1">
+                          <Button
+                            // onClick={() => startEdit(item)}
+                            variant="ghost"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            onClick={() => handleDelete(item.documentId)}
+                            disabled={deleting}
+                            variant="ghost"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-stone-400">
+                        Added {new Date(item.createdAt).toLocaleDateString()}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Empty State */}
+        {!loadingItems && items.length === 0 && (
+          <div className="bg-white p-12 text-center border-2 border-dashed border-stone-200">
+            <div className="bg-orange-50 w-20 h-20 border-2 border-orange-200 flex items-center justify-center ms-auto mb-6">
+              <Package className="w-10 h-10 text-orange-600" />
+            </div>
+            <h3 className="text-2xl font-bold text-stone-900 mb-2">
+              Your Pantry is Empty
+            </h3>
+          </div>
+        )}
       </div>
 
       {/* Add to Pantry Modal */}
