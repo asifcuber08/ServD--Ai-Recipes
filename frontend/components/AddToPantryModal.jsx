@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,7 @@ import {
 } from "@/actions/pantry.actions";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import ImageUploader from "./ImageUploader";
 
 const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
   const [activeTab, setActiveTab] = useState("scan");
@@ -65,6 +66,12 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
     onClose();
   };
 
+  // Handle image selection
+  const handleImageSelect = (file) => {
+    setSelectedImage(file);
+    setScannedIngredients([]); // Reset when new image selected
+  };
+
   const handleAddManual = async (e) => {
     e.preventDefault();
     if (!manualItem.name.trim() || !manualItem.quantity.trim()) {
@@ -80,12 +87,13 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent>
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-none">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle className="text-2xl font-bold tracking-tight">
+            Add to Pantry
+          </DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Scan your pantry with AI or add items manually
           </DialogDescription>
         </DialogHeader>
 
@@ -101,7 +109,17 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="scan" className="space-y-6 mt-6">
-            Make changes to your account here.
+            {scannedIngredients.length === 0 ? (
+              <div className="space-y-4">
+                {/* Image Uploader */}
+                <ImageUploader
+                  onImageSelect={handleImageSelect}
+                  loading={scanning}
+                />
+              </div>
+            ) : (
+              <div></div>
+            )}
           </TabsContent>
           <TabsContent value="manual" className="mt-6">
             <form onSubmit={handleAddManual} className="space-y-4">
@@ -116,7 +134,7 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                     setManualItem({ ...manualItem, name: e.target.value })
                   }
                   placeholder="e.g., Chicken breast"
-                  className="w-full px-4 py-3 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:bg-orange-500"
+                  className="w-full px-4 py-3 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
                   disabled={adding}
                 />
               </div>

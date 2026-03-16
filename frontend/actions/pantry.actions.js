@@ -188,7 +188,8 @@ export async function addPantryItemManually(formData) {
     }
 
     const response = await fetch(`${STRAPI_URL}/api/pantry-items`, {
-      method: {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${STRAPI_API_TOKEN}`,
       },
