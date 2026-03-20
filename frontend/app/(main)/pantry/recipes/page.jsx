@@ -2,6 +2,8 @@
 
 import { getRecipesByPantryIngredients } from "@/actions/recipe.actions";
 import PricingModal from "@/components/PricingModal";
+import RecipeCard from "@/components/RecipeCard";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import useFetch from "@/hooks/use-fetch";
 import {
@@ -11,6 +13,7 @@ import {
   Loader2,
   Package,
   Sparkles,
+  TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -108,7 +111,51 @@ const PantryRecipesPage = () => {
         )}
 
         {/* Recipes Grid - Using RecipeCard Component */}
-        
+        {!loading && recipes.length > 0 && (
+          <div className="">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-green-600" />
+                <h2 className="text-2xl font-bold text-stone-900">
+                  Recipe Suggestions
+                </h2>
+              </div>
+              <Badge
+                variant="outline"
+                className="border-2 border-b-stone-900 text-stone-900 font-bold uppercase tracking-wide"
+              >
+                {recipes.length} {recipes.length === 1 ? "recipe" : "recipes"}
+              </Badge>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {recipes.map((recipe, index) => (
+                <RecipeCard key={index} recipe={recipe} variant="pantry" />
+              ))}
+            </div>
+
+            <div className="mt-8 text-center">
+              <Button
+                onClick={() => fetchSuggestions(new FormData())}
+                variant="outline"
+                className="border-2 border-stone-900 hover:bg-stone-900 hover:text-white gap-2"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 " />
+                    Get New Suggestions
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* Empty Pantry State */}
         {!loading && recipes.length === 0 && recipesData?.success === false && (
