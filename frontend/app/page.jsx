@@ -171,7 +171,6 @@ export default async function Home() {
       </section>
 
       <section className="py-24 px-4 border-y-2 border-stone-200 bg-stone-900 text-stone-50">
-        \
         <div className="max-w-5xl mx-auto">
           <h2 className="text-5xl md:text-6xl font-bold mb-16">
             Cook in 3 Steps
@@ -206,10 +205,9 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Pricing - Now Using Component */}
       <section className="py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <PricingSection />
-        </div>
+        <PricingSection subscriptionTier={subscriptionTier} />
       </section>
     </div>
   );
