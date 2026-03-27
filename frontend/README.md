@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+---
 
-First, run the development server:
+# 🎨FRONTEND README.md
+
+
+### 🎨 Frontend - AI Recipe Generator
+
+![Next.js](https://img.shields.io/badge/Next.js-000?logo=next.js)
+![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?logo=tailwind-css)
+![Clerk](https://img.shields.io/badge/Auth-Clerk-purple)
+
+---
+
+## ✨ Features
+
+- 🧠 AI recipe generation UI  
+- 🔍 Recipe search  
+- 💾 Save recipes  
+- 🥕 Pantry management UI  
+- 📸 Image upload & AI scan  
+- 🔐 Clerk authentication  
+- 💳 Subscription UI  
+
+---
+
+## 🛠️ Tech Stack
+
+- ⚛️ React  
+- ▲ Next.js  
+- 🎨 Tailwind CSS  
+- 🧩 ShadCN UI  
+- 🔐 Clerk  
+
+---
+
+## 🚀 Getting Started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔐 Environment Variables
+```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in #use as it is
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up #use as it is
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ARCJET_KEY=
 
-## Learn More
+NEXT_PUBLIC_STRAPI_URL=
+STRAPI_API_TOKEN=
 
-To learn more about Next.js, take a look at the following resources:
+GEMINI_API_KEY=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+UNSPLASH_ACCESS_KEY=
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Sign up and get all the Environments Variable From Strapi, Clerk, unsplash and Gemini Api Key
