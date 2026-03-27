@@ -13,7 +13,7 @@ ServD AI Recipes - A full-stack AI-powered recipe platform that helps users crea
 
 ## 🎥 Project Demo
 
-![Project Demo](./frontend/public/demo.gif)
+![Project Demo](./assets/demo.gif)
 
 ---
 
