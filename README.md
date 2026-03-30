@@ -81,8 +81,8 @@ npm run dev
 
 
 ## 🔐 Environment Variables (.env)
-### Vercel Deployment
-- Sign up and get all the Environments Variable From Strapi, Clerk, unsplash and Gemini Api Key
+### For env. and for vercel deployment
+- Sign up and get all the Environments Variable values\api key from Strapi, Clerk, Unsplash, Arcjet and Google AI Studio for gemini api key
 #### Each folder has its own .env file.
 
 ---

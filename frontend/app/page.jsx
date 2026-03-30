@@ -52,7 +52,7 @@ export default async function Home() {
 
               <p className="mt-6 text-sm text-stone-500">
                 <span className="font-bold text-stone-900">10k+ cooks</span>
-                {""}
+                {" "}
                 joined last month
               </p>
             </div>
